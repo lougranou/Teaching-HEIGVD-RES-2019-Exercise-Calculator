@@ -87,7 +87,7 @@ public class MultiThreadedServer {
 			Socket clientSocket;
 			BufferedReader in = null;
 			PrintWriter out = null;
-			final  Character VALID_OPERATOR[] = {'x', '+'};
+			final  char VALID_OPERATOR[] = {'x', '+'};
 			final  String DELIMITER = " ";
 			String[] tokens;
 
@@ -115,38 +115,6 @@ public class MultiThreadedServer {
 
 					LOG.info("Reading until client sends BYE or closes the connection...");
 					while ((shouldRun) && (line = in.readLine()) != null) {
-						/*if (line.equalsIgnoreCase("bye")) {
-							out.println("Bye !");
-							out.flush();
-							shouldRun = false;
-						}
-
-						tokens = line.split(DELIMITER);
-
-						if(tokens.length != 3){
-							out.println("Wrong calcul 1");
-							out.flush();
-							shouldRun = false;
-						}
-
-
-						if(!tokens[0].matches("[0-9]+")){
-							out.println("Wrong calcul 2");
-							out.flush();
-							shouldRun = false;
-						}
-						if(!tokens[2].matches("[0-9]+")){
-							out.println("Wrong calcul 2");
-							out.flush();
-							shouldRun = false;
-						}
-
-
-						for (String str : tokens){
-							out.println("> " + str.toUpperCase());
-						}
-
-						out.flush();*/
 						if (line.equalsIgnoreCase("bye")) {
 							out.println("See you soon !");
 							out.flush();
@@ -159,12 +127,17 @@ public class MultiThreadedServer {
 
 						if(tokens.length != 3
 						|| !tokens[0].matches("[0-9]+") || !tokens[2].matches("[0-9]+")){
-							out.println("Wrong calcul");
+							out.println("Wrong calcul!");
 							out.flush();
 						}
-						int result = tokens
-								
 
+						for(char c : VALID_OPERATOR){
+
+						}
+
+						int result = Integer.parseInt(tokens[0]) + Integer.parseInt(tokens[0]);
+
+g
 						out.println("> " + line.toUpperCase());
 						out.flush();
 						}
