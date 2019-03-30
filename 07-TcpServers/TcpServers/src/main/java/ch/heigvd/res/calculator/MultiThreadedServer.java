@@ -1,4 +1,4 @@
-package ch.heigvd.res.examples;
+package ch.heigvd.res.calculator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -90,6 +90,8 @@ public class MultiThreadedServer {
 			final  char VALID_OPERATOR[] = {'x', '+'};
 			final  String DELIMITER = " ";
 			String[] tokens;
+			char currentOperator;
+			private boolean isValidOperator = false;
 
 			public ServantWorker(Socket clientSocket) {
 				try {
@@ -125,21 +127,50 @@ public class MultiThreadedServer {
 
 						if(shouldRun) {
 
+							/*
+							 * if tokens must be of length three for a valid calcul
+							 */
 						if(tokens.length != 3
 						|| !tokens[0].matches("[0-9]+") || !tokens[2].matches("[0-9]+")){
-							out.println("Wrong calcul!");
-							out.flush();
+							wrongCalcul(out);
+							continue;
 						}
 
+							/**
+							 * tokens[1] must be an valid operator
+							 */
 						for(char c : VALID_OPERATOR){
-
+							if(tokens[1].charAt(0) == c){
+								this.currentOperator = tokens[1].charAt(0);
+								this.isValidOperator = true;
+								break;
+							}
 						}
 
-						int result = Integer.parseInt(tokens[0]) + Integer.parseInt(tokens[0]);
+						if(!isValidOperator){
+							wrongCalcul(out);
+							continue;
+						}
 
-g
-						out.println("> " + line.toUpperCase());
-						out.flush();
+							/**
+							 * calcul and send result
+							 */
+
+							int operand_1 = Integer.parseInt(tokens[0]), operand_2 = Integer.parseInt(tokens[0]);
+							switch (this.currentOperator){
+								case '+':
+									writeResult(out, operand_1 + operand_2);
+									break;
+								case 'x':
+									writeResult(out, operand_1 * operand_2);
+									break;
+
+									default:
+										wrongCalcul(out);
+
+
+							}
+							this.isValidOperator = false;
 						}
 					}
 
@@ -171,6 +202,16 @@ g
 					LOG.log(Level.SEVERE, ex.getMessage(), ex);
 				}
 			}
+
+			private void wrongCalcul(PrintWriter out){
+				out.println("Wrong calcul, usage :  <operand_1> <operator> <operand_2>");
+				out.flush();
+			}
+
+		private void writeResult(PrintWriter out, int result){
+			out.println("> " + result);
+			out.flush();
+		}
 		}
 	}
 }

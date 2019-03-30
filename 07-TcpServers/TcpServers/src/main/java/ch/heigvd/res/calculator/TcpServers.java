@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.heigvd.res.examples;
+package ch.heigvd.res.calculator;
 
 /**
  * This application shows the difference between a single threaded TCP server
