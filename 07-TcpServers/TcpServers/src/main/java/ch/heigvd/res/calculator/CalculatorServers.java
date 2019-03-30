@@ -19,7 +19,7 @@ package ch.heigvd.res.calculator;
  *
  * @author Olivier Liechti
  */
-public class TcpServers {
+public class CalculatorServers {
 
 	/**
 	 * @param args the command line arguments

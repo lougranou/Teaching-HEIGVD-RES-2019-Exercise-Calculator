@@ -156,6 +156,7 @@ public class MultiThreadedServer {
 							 * calcul and send result
 							 */
 
+							System.out.println("Received calcul as : " + tokens[0] + " " + tokens[1] + " " +  tokens[2]);
 							int operand_1 = Integer.parseInt(tokens[0]), operand_2 = Integer.parseInt(tokens[0]);
 							switch (this.currentOperator){
 								case '+':
@@ -167,8 +168,6 @@ public class MultiThreadedServer {
 
 									default:
 										wrongCalcul(out);
-
-
 							}
 							this.isValidOperator = false;
 						}
