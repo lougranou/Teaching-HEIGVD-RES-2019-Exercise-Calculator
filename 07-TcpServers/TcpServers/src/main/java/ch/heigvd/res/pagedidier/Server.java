@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.heigvd.res.examples;
+package ch.heigvd.res.pagedidier;
 
 /**
  * This application shows the difference between a single threaded TCP server
@@ -19,7 +19,7 @@ package ch.heigvd.res.examples;
  *
  * @author Olivier Liechti
  */
-public class TcpServers {
+public class Server {
 
 	/**
 	 * @param args the command line arguments
@@ -29,7 +29,6 @@ public class TcpServers {
 
 		MultiThreadedServer multi = new MultiThreadedServer(3333);
 		multi.serveClients();
-
 	}
 
 }

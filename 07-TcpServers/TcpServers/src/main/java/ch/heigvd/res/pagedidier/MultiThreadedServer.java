@@ -1,4 +1,7 @@
-package ch.heigvd.res.examples;
+package ch.heigvd.res.pagedidier;
+
+import ch.heigvd.res.pagedidier.Calculator.Operation;
+import ch.heigvd.res.pagedidier.Calculator.OperationType;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -76,18 +79,17 @@ public class MultiThreadedServer {
 
 		}
 
-	/**
-	 * This inner class implements the behavior of the "servants", whose
-	 * responsibility is to take care of clients once they have connected. This
-	 * is where we implement the application protocol logic, i.e. where we read
-	 * data sent by the client and where we generate the responses.
-	 */
+		/**
+		 * This inner class implements the behavior of the "servants", whose
+		 * responsibility is to take care of clients once they have connected. This
+		 * is where we implement the application protocol logic, i.e. where we read
+		 * data sent by the client and where we generate the responses.
+		 */
 		private class ServantWorker implements Runnable {
 
 			Socket clientSocket;
 			BufferedReader in = null;
 			PrintWriter out = null;
-			final  Character VALID_OPERATOR[] = {'x', '+'};
 			final  String DELIMITER = " ";
 			String[] tokens;
 
@@ -106,47 +108,12 @@ public class MultiThreadedServer {
 				String line;
 				boolean shouldRun = true;
 
-				out.println("Welcome to the Calculator Server.\nSend me your calculus <operand_1> <operator> <operand_2> and conclude with the BYE command.");
+				out.println("Welcome to the Calculator Server. Send me your calculus <operand_1> <operator> <operand_2> and conclude with the BYE command.");
 				out.flush();
 				try {
 
-
-
-
 					LOG.info("Reading until client sends BYE or closes the connection...");
 					while ((shouldRun) && (line = in.readLine()) != null) {
-						/*if (line.equalsIgnoreCase("bye")) {
-							out.println("Bye !");
-							out.flush();
-							shouldRun = false;
-						}
-
-						tokens = line.split(DELIMITER);
-
-						if(tokens.length != 3){
-							out.println("Wrong calcul 1");
-							out.flush();
-							shouldRun = false;
-						}
-
-
-						if(!tokens[0].matches("[0-9]+")){
-							out.println("Wrong calcul 2");
-							out.flush();
-							shouldRun = false;
-						}
-						if(!tokens[2].matches("[0-9]+")){
-							out.println("Wrong calcul 2");
-							out.flush();
-							shouldRun = false;
-						}
-
-
-						for (String str : tokens){
-							out.println("> " + str.toUpperCase());
-						}
-
-						out.flush();*/
 						if (line.equalsIgnoreCase("bye")) {
 							out.println("See you soon !");
 							out.flush();
@@ -157,18 +124,26 @@ public class MultiThreadedServer {
 
 						if(shouldRun) {
 
-						if(tokens.length != 3
-						|| !tokens[0].matches("[0-9]+") || !tokens[2].matches("[0-9]+")){
-							out.println("Wrong calcul");
+							if(tokens.length != 3 || !tokens[0].matches("[0-9]+") || !tokens[2].matches("[0-9]+")){
+								out.println("Wrong calcul");
+								out.flush();
+							}
+							Operation op = OperationType.ADDITION;
+							if(tokens[1].equals("+")){
+								op= OperationType.ADDITION;
+							}else if(tokens[1].equals("-")){
+								op = OperationType.SUBTRACTION;
+							}
+							try{
+								out.println("> "+ op.calculate(Integer.parseInt(tokens[0]),Integer.parseInt(tokens[2])));
+
+							}catch (NullPointerException e){
+								LOG.log(Level.SEVERE, e.getMessage(), e);
+							}
 							out.flush();
 						}
-						int result = tokens
-								
-
-						out.println("> " + line.toUpperCase());
-						out.flush();
-						}
 					}
+					out.println("Good Bye !");
 
 
 
